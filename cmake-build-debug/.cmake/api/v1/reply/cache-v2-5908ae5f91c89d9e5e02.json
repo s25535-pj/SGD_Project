@@ -2,6 +2,42 @@
 	"entries" : 
 	[
 		{
+			"name" : "BB2_BINARY_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "G:/Clion projects/BB2/cmake-build-debug"
+		},
+		{
+			"name" : "BB2_IS_TOP_LEVEL",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "ON"
+		},
+		{
+			"name" : "BB2_SOURCE_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "G:/Clion projects/BB2"
+		},
+		{
 			"name" : "CMAKE_ADDR2LINE",
 			"properties" : 
 			[
@@ -55,7 +91,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "g:/Clion projects/SGD_Project/cmake-build-debug"
+			"value" : "g:/Clion projects/BB2/cmake-build-debug"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -575,7 +611,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "G:/Clion projects/SGD_Project/cmake-build-debug/CMakeFiles/pkgRedirects"
+			"value" : "G:/Clion projects/BB2/cmake-build-debug/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -647,7 +683,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "G:/Clion projects/SGD_Project"
+			"value" : "G:/Clion projects/BB2"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -659,7 +695,7 @@
 				}
 			],
 			"type" : "PATH",
-			"value" : "C:/Program Files (x86)/test2"
+			"value" : "C:/Program Files (x86)/BB2"
 		},
 		{
 			"name" : "CMAKE_LINKER",
@@ -875,7 +911,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "test2"
+			"value" : "BB2"
 		},
 		{
 			"name" : "CMAKE_RANLIB",
@@ -1292,42 +1328,6 @@
 			],
 			"type" : "INTERNAL",
 			"value" : "TRUE"
-		},
-		{
-			"name" : "test2_BINARY_DIR",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "G:/Clion projects/SGD_Project/cmake-build-debug"
-		},
-		{
-			"name" : "test2_IS_TOP_LEVEL",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "ON"
-		},
-		{
-			"name" : "test2_SOURCE_DIR",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "G:/Clion projects/SGD_Project"
 		}
 	],
 	"kind" : "cache",
