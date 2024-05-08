@@ -27,7 +27,7 @@
 					[
 						0
 					],
-					"name" : "BB3",
+					"name" : "BrickBreaker",
 					"targetIndexes" : 
 					[
 						0
@@ -38,9 +38,9 @@
 			[
 				{
 					"directoryIndex" : 0,
-					"id" : "BB3::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-BB3-Debug-abbb5a92a95f4dd333bd.json",
-					"name" : "BB3",
+					"id" : "BrickBreaker::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-BrickBreaker-Debug-80c8c71d53e1278d32f1.json",
+					"name" : "BrickBreaker",
 					"projectIndex" : 0
 				}
 			]
@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "G:/Clion projects/BB3/cmake-build-debug",
-		"source" : "G:/Clion projects/BB3"
+		"build" : "C:/Users/oem/Desktop/Studia/SGD/SGD_Project/cmake-build-debug",
+		"source" : "C:/Users/oem/Desktop/Studia/SGD/SGD_Project"
 	},
 	"version" : 
 	{

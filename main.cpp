@@ -1,211 +1,66 @@
-#include <SDL.h>
-#include <cmath>
 #include <iostream>
+#include <SDL2/SDL.h>
+#include <cmath>
 #include <vector>
-#include <memory>
+#include "macros.h"
+#include "Window.h"
 #include "Player.h"
 #include "Ball.h"
 #include "Brick.h"
 
-#define WINDOW_WIDTH 1000
-#define WINDOW_HEIGHT 1000
-
-#define PLAYER_WIDTH 150
-#define PLAYER_HEIGHT 12
-#define PLAYER_SPEED 10
-#define PLAYER_SPACE_FROM_BOTTOM 100
-
-#define BALL_SPEED 15
-#define BALL_SIZE 30
-
-#define MAX_BALL_SIDEWAYS_BOUNCE_OF_PLAYER 0.5 // Jak mocno piłkę może odbić w bok max: 1
-#define ADJUST_BALL_SIDEWAYS_BOUNCE_OF_PLAYER 0.9 // Zdławienie odbijania w boki
-
-#define BRICK_COLUMNS 8
-#define BRICK_ROWS 3
-#define BRICK_HEIGHT 40
-#define VERTICAL_SPACE_BETWEEN_BRICKS 30
-#define HORIZONTAL_SPACE_BETWEEN_BRICKS 30
-
-#define SPACE_FROM_SCREEN_TOP 20
-
-// Tego nie tykać, wylicza się z poprzednich.
-#define PLAYER_START_POS_X (( WINDOW_WIDTH - PLAYER_WIDTH )/2 )
-#define PLAYER_START_POS_Y ( WINDOW_HEIGHT - PLAYER_HEIGHT - PLAYER_SPACE_FROM_BOTTOM )
-
-#define BALL_START_POS_X (( WINDOW_WIDTH - BALL_SIZE )/2 )
-#define BALL_START_POS_Y ( PLAYER_START_POS_Y - BALL_SIZE - 10)
-
-#define BRICK_WIDTH ( WINDOW_WIDTH - ((SPACE_BETWEEN_BRICKS * BRICK_COLUMNS) / BRICK_COLUMNS ))
-
-
-SDL_Window* createWindow() {
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-        std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
-        exit(1);
-    }
-
-    SDL_Window* window = SDL_CreateWindow("BlockBreaker",SDL_WINDOWPOS_UNDEFINED,
-                                          SDL_WINDOWPOS_UNDEFINED,WINDOW_WIDTH,WINDOW_HEIGHT,SDL_WINDOW_SHOWN);
-    if (window == nullptr) {
-        std::cout << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
-        SDL_Quit();
-        exit(2);
-    }
-    return window;
-}
-SDL_Renderer* createRenderer(SDL_Window* window) {
-
-// SDL_RENDERER_ACCELERATED używanie karty graficznej
-// SDL_RENDERER_PRESENTVSYNC wyrównaj do odświerzania monitora
-
-    SDL_Renderer* renderer_SDL = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    if (renderer_SDL == nullptr) {
-        std::cout << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
-        SDL_DestroyWindow(window);
-        SDL_Quit();
-        exit(3);
-    }
-    return renderer_SDL;
-}
-void resetGame(bool &game_active) {
-    game_active = false;
-}
-void handleEvents(bool &game_active, Player &player) {
-    SDL_Event e;
+void handleEvents(bool &gameActive, Player* player) {
+    SDL_Event event;
     const Uint8 *keystate = SDL_GetKeyboardState(NULL);
 
-    while (SDL_PollEvent(&e)) {
-        if (e.type == SDL_QUIT) {
-            game_active = false;
+    while (SDL_PollEvent(&event)) {
+        if (event.type == SDL_QUIT) {
+            gameActive = false;
         }
     }
     if (keystate[SDL_SCANCODE_ESCAPE] || keystate[SDL_SCANCODE_Q]) {
-        game_active = false;
+        gameActive = false;
     }
     if (keystate[SDL_SCANCODE_A]) {
-        std::cout << "left" << std::endl;
-        // Nie wylataj za mapę
-        player.moveLeft();
+        player->moveLeft();
     }
     if (keystate[SDL_SCANCODE_D]) {
-        std::cout << "right" << std::endl;
-        player.moveRight();
+        player->moveRight();
+    }
+    if (keystate[SDL_SCANCODE_W]) {
+        player->moveUp();
+    }
+    if (keystate[SDL_SCANCODE_S]) {
+        player->moveDown();
     }
 }
-void drawObjects(SDL_Renderer *renderer, Player &player, Ball &ball, Brick (bricks)[][BRICK_COLUMNS]) {
 
-    //Czyszczenie ekranu
-    SDL_SetRenderDrawColor(renderer, 120, 125, 125, 255);
-    SDL_RenderClear(renderer);
+// AABB
+bool collisionDetected(GameObject* o1, GameObject* o2) {
+    if (o1->posX < o2->posX + o2->w &&
+        o1->posX + o1->w > o2->posX &&
+        o1->posY < o2->posY + o2->h &&
+        o1->posY + o1->h > o2->posY){
+        return true;
+    }
+    return false;
+}
 
-    // Narysuj gracza
-    SDL_SetRenderDrawColor(renderer, player.getColor().r, player.getColor().g, player.getColor().b, 255);
-    SDL_RenderFillRect(renderer, player.getRect());
-
-    // Narysuj piłkę
-
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    SDL_RenderFillRect(renderer, ball.getRect());
-
-    // Narysuj cegły
-
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-
+void handleCollisions(Player* player, Ball* ball, Brick* bricks[BRICK_ROWS][BRICK_COLUMNS]) {
+    if (collisionDetected(player, ball)) {
+        ball->bounceFromPlayer(player);
+    };
 
     for (int i = 0; i < BRICK_ROWS; ++i) {
         for (int j = 0; j < BRICK_COLUMNS; ++j) {
-            if (bricks[i][j].getIsVisible()) {
-                SDL_RenderFillRect(renderer, bricks[i][j].getRect());
-//                SDL_RenderCopy(renderer, bricks[i][j].getTexture(), NULL, bricks[i][j].getRect());
-            }
-        }
-    }
-
-
-    // Wyświetl na ekran
-    SDL_RenderPresent(renderer);
-}
-void handleCollisions(int window_width, int window_height, double maxSidewaysBounce, double adjustBounce, Player &player,  Ball &ball, Brick (bricks)[][BRICK_COLUMNS], bool &game_active) {
-    // Odbicia piłki od ścian
-    ////Sufit
-    if (ball.getY() <= 0) {
-        ball.flipVertically();
-    }
-    //// Podłoga
-    if (ball.getY() + ball.getSize() >= window_height) {
-        ball.flipVertically();
-        if (!player.reduceLives()) {
-            resetGame(game_active);
-        };
-    }
-    //// Boki
-    if (ball.getX() <= 0 || ball.getX() + ball.getSize() >= window_width) {
-        ball.flipHorizontally();
-    }
-    // By gracz nie wylatał za mapę
-    if (player.getX() < 0) {
-        player.setX(0);
-    }
-    if (player.getX() + player.getW() > window_width) {
-        player.setX(window_width - player.getW());
-    }
-
-    // Kolizja piłki z graczem
-    if (SDL_HasIntersection(ball.getRect(), player.getRect())) {
-//        ball.flipVertically();
-        // Liczenie odległości między graczem a piłką
-        double relative = player.getX() + (player.getW()/2) - (ball.getX() + ball.getSize()/2);
-        // Skalowanie od -1 do 1
-        double normalized = relative / (player.getW()/2);
-
-//        if (normalized > maxSidewaysBounce) {
-//            normalized = maxSidewaysBounce;
-//        } else if (normalized < -maxSidewaysBounce) {
-//            normalized = -maxSidewaysBounce;
-//        }
-//        std::cout << normalized << std::endl;
-        double bounce = normalized * (5* M_PI/12);
-
-        bounce *= adjustBounce;
-        double new_dx = ball.getSpeed() * -sin(bounce);
-        double new_dy = -ball.getSpeed() * cos(bounce);
-
-        ball.setDx(new_dx);
-        ball.setDy(new_dy);
-
-//        std::cout << ball.getDx() << ":" << ball.getDy() << ":" << ball.getSpeed()  << std::endl;
-    }
-
-    // Kolizja piłki z cegłami
-    for (int i = 0; i < BRICK_ROWS; ++i) {
-        for (int j = 0; j < BRICK_COLUMNS; ++j) {
-            if (bricks[i][j].getIsVisible() && SDL_HasIntersection(ball.getRect(), bricks[i][j].getRect())) {
-                std::cout << "Ball killed brick: " << bricks[i][j].getX() << " " << bricks[i][j].getY() << std::endl;
-                bricks[i][j].setIsVisible(false);
-                ball.flipVertically();
+            if (collisionDetected(ball, bricks[i][j]) && bricks[i][j]->alive) {
+                bricks[i][j]->destroy();
+                ball->velY *= -1;
             }
         }
     }
 }
-void updateObjects(Ball &ball) {
-    ball.updatePostion();
 
-}
-
-int main(int argc, char *argv[]) {
-//    std::cout << "Hello, World!" << std::endl;
-
-    SDL_Window* window = createWindow();
-    SDL_Renderer* renderer = createRenderer(window);
-    bool game_active = true;
-
-    Player player(PLAYER_START_POS_X, PLAYER_START_POS_Y, PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_SPEED);
-    Ball ball(BALL_START_POS_X, BALL_START_POS_Y, BALL_SIZE, BALL_SPEED);
-
-
-    Brick bricks[BRICK_ROWS][BRICK_COLUMNS];
-//     Tworzenie Cegieł
+void setUpBricks(Window* window, Brick* bricks[BRICK_ROWS][BRICK_COLUMNS]) {
     for (int i = 0; i < BRICK_ROWS; ++i) {
         for (int j = 0; j < BRICK_COLUMNS; ++j) {
             int brickWidth = (WINDOW_WIDTH / BRICK_COLUMNS) - HORIZONTAL_SPACE_BETWEEN_BRICKS;
@@ -214,33 +69,176 @@ int main(int argc, char *argv[]) {
             int x = space_from_screen_sides + j * (brickWidth + HORIZONTAL_SPACE_BETWEEN_BRICKS);
             int y = SPACE_FROM_SCREEN_TOP + i * (BRICK_HEIGHT + VERTICAL_SPACE_BETWEEN_BRICKS);
 
-            bricks[i][j] = Brick(x, y, brickWidth, BRICK_HEIGHT);
-//            bricks[i][j].initTexture(renderer);
+            bricks[i][j] = new Brick(x, y, brickWidth, BRICK_HEIGHT);
+            window->saveObjectToList(bricks[i][j]);
         }
     }
+}
 
-    while (game_active) {
+void debugBricks(Brick* bricks[BRICK_ROWS][BRICK_COLUMNS]) {
+    std::cout <<"============="<< std::endl;
+    for (int i = 0; i < BRICK_ROWS; ++i) {
+        for (int j = 0; j < BRICK_COLUMNS; ++j) {
+            if (bricks[i][j]->alive) {
+                std::cout << "1";
+            } else {
+                std::cout << "0";
+            }
+        }
+        std::cout << std::endl;
+    }
+    std::cout <<"============="<< std::endl;
+}
+
+int main(int argc, char *argv[]) {
+
+    int playerStartingPosX = (WINDOW_WIDTH/2) - (PLAYER_WIDTH/2);
+    int playerStartingPosY = WINDOW_HEIGHT - PLAYER_HEIGHT - PLAYER_SPACE_FROM_BOTTOM;
+
+    int ballStartingPosX = (WINDOW_WIDTH/2) - (BALL_WIDTH/2);
+    int ballStartingPosY = WINDOW_HEIGHT/2;
+    bool gameActive = true;
+
+    auto* window = new Window();
+    auto* player = new Player(playerStartingPosX,playerStartingPosY,PLAYER_WIDTH, PLAYER_HEIGHT);
+    window->saveObjectToList(player);
+
+    auto* ball = new Ball(ballStartingPosX,ballStartingPosY, BALL_WIDTH, BALL_HEIGHT);
+    window->saveObjectToList(ball);
+
+    Brick* bricks[BRICK_ROWS][BRICK_COLUMNS];
+    setUpBricks(window, bricks);
+
+
+    // Pętla gry
+    while (gameActive) {
         Uint64 start = SDL_GetPerformanceCounter();
+        //================================
 
-        handleEvents(game_active, player);
-        handleCollisions(WINDOW_WIDTH, WINDOW_HEIGHT, MAX_BALL_SIDEWAYS_BOUNCE_OF_PLAYER, ADJUST_BALL_SIDEWAYS_BOUNCE_OF_PLAYER, player, ball, bricks, game_active);
-        updateObjects(ball);
-        drawObjects(renderer, player, ball, bricks);
+        handleEvents(gameActive, player);
+        handleCollisions(player, ball, bricks);
 
+        window->updateAllObjects();
+        window->drawAllObjects();
+//        debugBricks(bricks);
 
-        // Cap framerate
+        //================================
         Uint64 end = SDL_GetPerformanceCounter();
-        float elapsedMS = (end - start) / (float)SDL_GetPerformanceFrequency() * 1000.0f;
+        float elapsedMS = (end - start) / (float) SDL_GetPerformanceFrequency() * 1000.0f;
         SDL_Delay(floor(16.666f - elapsedMS));
-//        SDL_Delay(3000);
-//        game_active = false;
     }
 
-
-
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
+    delete window;
     SDL_Quit();
-
     return 0;
 }
+
+
+
+//class witaj {
+//    int number = 0;
+
+//public:
+//    witaj();
+//    witaj(int number) : number(number){}
+//    ~witaj(){
+//        number = 0;
+//    };
+//
+//
+//
+//};
+
+//void fun(witaj* name[TEST][TEST]) {
+//    std::unique_ptr<witaj> nazwa = std::make_unique<witaj>();
+//    nazwa->std::get();
+//
+//    int number = rand();
+//    std::vector<int> cyfry;
+//    cyfry.push_back(1);
+//    cyfry.
+//}
+
+//int main() {
+//    int zmienna_testowa;
+//    std::cout << "Press enter to end program" << std::endl;
+//    std::cin.get();
+//
+//    witaj* name[TEST][TEST];
+//
+//    for (int i = 0; i != TEST; i++) {
+//        for (int j = 0; j != TEST; j++) {
+//            // Dla każdej kolumny w wierszu
+//            witaj* name1 = new witaj(10);
+//            name[i][j] = name1;
+//        }
+//    }
+//
+//    fun(name);
+//    return 0;
+
+//}
+
+//class Functions {
+//
+//    int number = 0;
+//
+//public:
+//
+//    Functions(){
+//        number = rand();
+//    }
+//
+//    ~Functions(){
+//        number = 0;
+//    };
+//
+//    void printNumber() {
+//        std::cout << number << std::endl;
+//    }
+//    void printHello() {
+//        std::cout << "Hello form function" << std::endl;
+//    }
+//
+//};
+//
+//
+//class Manager {
+//
+//public:
+//
+//    std::vector<Functions*> funlist;
+//
+//    Manager(){}
+//    ~Manager(){}
+//
+//    Functions* returnFunction() {
+//        Functions* function = new Functions();
+//        funlist.push_back(function);
+//        return function;
+//    }
+//
+//    void deleteFunction(Functions* function) {
+//        delete function;
+//        std::cout << "deleted" << std::endl;
+//    }
+//};
+
+//#include "TestClass.h"
+//int main() {
+//    TestClass test;
+//    test.saySomething("lasvegas");
+////    Manager man;
+////
+////    Functions* fun1 = man.returnFunction();
+////    fun1->printNumber();
+////    fun1->printHello();
+////
+////    man.deleteFunction(fun1);
+//
+//    // Functions fun2;
+//    // fun2.printnumber();
+//
+//    return 0;
+//}
+

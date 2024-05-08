@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.27)
-project(BB3)
+project(BrickBreaker)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -11,9 +11,20 @@ include_directories(${SDL2_INCLUDE_DIR})
 #link_directories(${SDL2_LIB_DIR})
 
 add_executable(${PROJECT_NAME} main.cpp
+        Window.h
+        Window.cpp
+        GameObject.h
+        GameObject.cpp
         Player.h
+        Player.cpp
+        MovingObject.cpp
+        MovingObject.h
+        Ball.cpp
         Ball.h
-        Brick.h)
+        Brick.cpp
+        Brick.h
+
+)
 
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY} -lmingw32 -lSDL2main -lSDL2 -mwindows)
 # Tylko tak mi zadziałało: https://www.youtube.com/watch?v=7sIBklOTImI
