@@ -6,7 +6,7 @@
 #include "Player.h"
 #include "macros.h"
 
-Ball::Ball(int posX, int posY, int w, int h) : GameObject(posX,posY,w,h), velX(10), velY(10) {
+Ball::Ball(int posX, int posY, int w, int h) : GameObject(posX,posY,w,h), velX(7), velY(7), maxSpeed(BALL_MAX_SPEED), speedGain(BALL_SPEED_GAIN) {
     std::cout << "[Ball] Created Ball object" << std::endl;
 }
 
@@ -20,17 +20,13 @@ void Ball::renderObject(SDL_Renderer* renderer) {
     SDL_RenderFillRect(renderer, &rectangle);
 }
 
-void Ball::handleWallCollision() {
-    // Przelatywanie przez ściany :)
-    if (posX < 0) { velX = -velX; } //  if (posX < -w) { posX = WINDOW_WIDTH; }
-    if (posX > WINDOW_WIDTH - BALL_WIDTH) { velX = -velX; } //  if (posX > WINDOW_WIDTH) { posX = -w; }
-    if (posY < 0) { velY = -velY; }
-    if (posY > WINDOW_HEIGHT - h) { velY = -velY; }
-};
-
-
 void Ball::applyGravity() {
     velY += BALL_GRAVITY;
+}
+
+void Ball::increaseSpeed() {
+    maxSpeed += speedGain;
+        std::cout << "[Ball] Speed increased: " << speedGain + maxSpeed << std::endl;
 }
 
 void Ball::bounceFromPlayer(Player* player) {
@@ -48,23 +44,15 @@ void Ball::bounceFromPlayer(Player* player) {
 
     double relative = player->posX + (player->w/2.0) - (posX + w/2.0); // Wyliczanie środka gracza
     double normalized = relative / (player->w/2.0); // Normalizacja od -1 do 1
-
-//        if (normalized > maxSidewaysBounce) {
-//            normalized = maxSidewaysBounce;
-//        } else if (normalized < -maxSidewaysBounce) {
-//            normalized = -maxSidewaysBounce;
-//        }
-//        std::cout << normalized << std::endl;
     double bounce = normalized * (5* M_PI/12);
 
-    bounce *= 0.9;
-    velX = 10 * -sin(bounce);
-    velY = -10 * cos(bounce);
+    bounce *= 0.8;
+    velX = maxSpeed * -sin(bounce);
+    velY = -maxSpeed * cos(bounce);
 }
 
 void Ball::updateObject() {
 //    applyGravity();
-    handleWallCollision();
 
     posX += (int)velX;
     posY += (int)velY;

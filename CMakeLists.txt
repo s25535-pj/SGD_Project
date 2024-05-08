@@ -17,12 +17,12 @@ add_executable(${PROJECT_NAME} main.cpp
         GameObject.cpp
         Player.h
         Player.cpp
-        MovingObject.cpp
-        MovingObject.h
         Ball.cpp
         Ball.h
         Brick.cpp
         Brick.h
+        Collisions.cpp
+        Collisions.h
 
 )
 

@@ -9,14 +9,16 @@ class Ball : public GameObject {
 public:
     double velX;
     double velY;
+    double maxSpeed;
+    double speedGain;
 
     Ball(int posX, int posY, int w, int h);
     ~Ball();
 
     void renderObject(SDL_Renderer*) override;
-    void handleWallCollision();
     void applyGravity();
     void limitSpeedToMax();
+    void increaseSpeed();
     void bounceFromPlayer(Player*);
     void updateObject() override;
 };

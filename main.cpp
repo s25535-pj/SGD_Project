@@ -2,11 +2,13 @@
 #include <SDL2/SDL.h>
 #include <cmath>
 #include <vector>
+#include <memory>
 #include "macros.h"
 #include "Window.h"
 #include "Player.h"
 #include "Ball.h"
 #include "Brick.h"
+#include "Collisions.h"
 
 void handleEvents(bool &gameActive, Player* player) {
     SDL_Event event;
@@ -31,32 +33,6 @@ void handleEvents(bool &gameActive, Player* player) {
     }
     if (keystate[SDL_SCANCODE_S]) {
         player->moveDown();
-    }
-}
-
-// AABB
-bool collisionDetected(GameObject* o1, GameObject* o2) {
-    if (o1->posX < o2->posX + o2->w &&
-        o1->posX + o1->w > o2->posX &&
-        o1->posY < o2->posY + o2->h &&
-        o1->posY + o1->h > o2->posY){
-        return true;
-    }
-    return false;
-}
-
-void handleCollisions(Player* player, Ball* ball, Brick* bricks[BRICK_ROWS][BRICK_COLUMNS]) {
-    if (collisionDetected(player, ball)) {
-        ball->bounceFromPlayer(player);
-    };
-
-    for (int i = 0; i < BRICK_ROWS; ++i) {
-        for (int j = 0; j < BRICK_COLUMNS; ++j) {
-            if (collisionDetected(ball, bricks[i][j]) && bricks[i][j]->alive) {
-                bricks[i][j]->destroy();
-                ball->velY *= -1;
-            }
-        }
     }
 }
 
@@ -99,7 +75,9 @@ int main(int argc, char *argv[]) {
     int ballStartingPosY = WINDOW_HEIGHT/2;
     bool gameActive = true;
 
-    auto* window = new Window();
+    std::unique_ptr<Window> window = std::make_unique<Window>();
+    std::unique_ptr<Collisions> collisions = std::make_unique<Collisions>();
+
     auto* player = new Player(playerStartingPosX,playerStartingPosY,PLAYER_WIDTH, PLAYER_HEIGHT);
     window->saveObjectToList(player);
 
@@ -107,8 +85,7 @@ int main(int argc, char *argv[]) {
     window->saveObjectToList(ball);
 
     Brick* bricks[BRICK_ROWS][BRICK_COLUMNS];
-    setUpBricks(window, bricks);
-
+    setUpBricks(window.get(), bricks);
 
     // Pętla gry
     while (gameActive) {
@@ -116,19 +93,18 @@ int main(int argc, char *argv[]) {
         //================================
 
         handleEvents(gameActive, player);
-        handleCollisions(player, ball, bricks);
 
+        collisions->handleAllCollisions(player, ball, bricks);
         window->updateAllObjects();
         window->drawAllObjects();
 //        debugBricks(bricks);
 
         //================================
         Uint64 end = SDL_GetPerformanceCounter();
-        float elapsedMS = (end - start) / (float) SDL_GetPerformanceFrequency() * 1000.0f;
+        double elapsedMS = (end - start) / SDL_GetPerformanceFrequency() * 1000.0f;
         SDL_Delay(floor(16.666f - elapsedMS));
     }
 
-    delete window;
     SDL_Quit();
     return 0;
 }

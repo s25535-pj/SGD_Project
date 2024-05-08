@@ -5,7 +5,8 @@
 #include "GameObject.h"
 #include "macros.h"
 
-Player::Player(int posX, int posY, int w, int h) : GameObject(posX,posY,w,h), velX(0), velY(0) {
+Player::Player(int posX, int posY, int w, int h) : GameObject(posX,posY,w,h), velX(0), velY(0),
+acc(PLAYER_ACCELERATION), maxSpeed(PLAYER_MAX_SPEED), resistance(PLAYER_RESISTANCE) {
     std::cout << "[Player] Created Player object" << std::endl;
 }
 
@@ -20,54 +21,53 @@ void Player::renderObject(SDL_Renderer* renderer) {
 }
 
 void Player::moveLeft() {
-    velX -= PLAYER_ACCELERATION_VALUE;
+    velX -= acc;
 }
 
 void Player::moveRight() {
-    velX += PLAYER_ACCELERATION_VALUE;
+    velX += acc;
 }
 
 void Player::moveUp() {
-    velY -= PLAYER_ACCELERATION_VALUE;
+    velY -= acc;
 }
 
 void Player::moveDown() {
-    velY += PLAYER_ACCELERATION_VALUE;
+    velY += acc;
 }
 
-void Player::handleWallCollision() {
-    // Przelatywanie przez ściany :)
-    if (posX < -w) { posX = WINDOW_WIDTH; } //    if (posX < 0) { posX = 0; }
-    if (posX > WINDOW_WIDTH) { posX = -w; } //    if (posX > WINDOW_WIDTH - PLAYER_WIDTH) { posX = WINDOW_WIDTH - PLAYER_WIDTH; }
-    if (posY < 0) { posY = 0; }
-    if (posY > WINDOW_HEIGHT - h) { posY = WINDOW_HEIGHT - h; }
-};
-
 void Player::applyResistance() {
-    if (velX < 0) { velX += PLAYER_RESISTANCE; }
-    if (velX > 0) { velX -= PLAYER_RESISTANCE; }
-    if (velY < 0) { velY += PLAYER_RESISTANCE; }
-    if (velY > 0) { velY -= PLAYER_RESISTANCE; }
+    if (velX < 0) { velX += resistance; }
+    if (velX > 0) { velX -= resistance; }
+    if (velY < 0) { velY += resistance; }
+    if (velY > 0) { velY -= resistance; }
 }
 
 void Player::limitSpeedToMax() {
     // Granica pędkości, Poruszanie na ukos jest szybsze trzeba odpowiednio zmiejszyć, nie chcemy liczyć bardzo zmiennoprzecinkowych
     // a^2 + b^2 = c^2
     double speed = std::sqrt(velX * velX + velY * velY);
-    if (speed > PLAYER_MAX_SPEED) {
-        velX = (velX / speed) * PLAYER_MAX_SPEED;
-        velY = (velY / speed) * PLAYER_MAX_SPEED;
+    if (speed > maxSpeed) {
+        velX = (velX / speed) * maxSpeed;
+        velY = (velY / speed) * maxSpeed;
         velX = round(velX * 100.0) / 100.0;
         velY = round(velY * 100.0) / 100.0;
+    }
+}
+
+void Player::limitUpMovement() {
+    if (posY < WINDOW_HEIGHT * 2/3) {
+        velY += PLAYER_GRAVITY;
     }
 }
 
 void Player::updateObject() {
     applyResistance();
     limitSpeedToMax();
+//    limitMovement();
+    limitUpMovement();
     posX += (int)velX;
     posY += (int)velY;
-    handleWallCollision();
 
 
 //    std::cout << "[Player] velX: " << velX << std::endl;

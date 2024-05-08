@@ -8,6 +8,9 @@ class Player : public GameObject {
 public:
     double velX;
     double velY;
+    double acc;
+    double maxSpeed;
+    double resistance;
 
     Player(int posX, int posY, int w, int h);
     ~Player();
@@ -17,9 +20,9 @@ public:
     void moveRight();
     void moveUp();
     void moveDown();
-    void handleWallCollision();
     void applyResistance();
     void limitSpeedToMax();
+    void limitUpMovement();
     void updateObject() override;
 };
 
