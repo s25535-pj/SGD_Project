@@ -6,7 +6,7 @@
 #include "Player.h"
 #include "macros.h"
 
-Ball::Ball(int posX, int posY, int w, int h) : GameObject(posX,posY,w,h), velX(7), velY(7), maxSpeed(BALL_MAX_SPEED), speedGain(BALL_SPEED_GAIN) {
+Ball::Ball(int posX, int posY, int w, int h) : GameObject(posX,posY,w,h), velX(2), velY(9), maxSpeed(BALL_MAX_SPEED), speedGain(BALL_SPEED_GAIN) {
     std::cout << "[Ball] Created Ball object" << std::endl;
 }
 

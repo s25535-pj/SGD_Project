@@ -10,6 +10,7 @@
 #include "Brick.h"
 #include "Collisions.h"
 
+
 void handleEvents(bool &gameActive, Player* player) {
     SDL_Event event;
     const Uint8 *keystate = SDL_GetKeyboardState(NULL);
@@ -95,6 +96,7 @@ int main(int argc, char *argv[]) {
         handleEvents(gameActive, player);
 
         collisions->handleAllCollisions(player, ball, bricks);
+//        player->loadTexture();
         window->updateAllObjects();
         window->drawAllObjects();
 //        debugBricks(bricks);

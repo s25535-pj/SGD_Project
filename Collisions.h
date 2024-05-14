@@ -14,11 +14,13 @@ public:
     ~Collisions();
 
     bool collisionDetected(GameObject*, GameObject*);
+    int collisionDirection(GameObject*, GameObject*);
     void playerWallCollision(Player*);
     void ballWallCollision(Ball*);
     void ballBrickCollision(Ball*, Brick* [BRICK_ROWS][BRICK_COLUMNS]);
     void ballPlayerCollision(Ball*, Player*);
     void handleAllCollisions(Player*, Ball*, Brick* [BRICK_ROWS][BRICK_COLUMNS]);
+
 };
 
 

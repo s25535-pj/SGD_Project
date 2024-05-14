@@ -38,7 +38,7 @@ SDL_Renderer* Window::createRenderer() {
 
         // SDL_RENDERER_ACCELERATED używanie karty graficznej
         // SDL_RENDERER_PRESENTVSYNC wyrównaj do odświerzania monitora
-         renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+        renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
         if (renderer == nullptr) {
             std::cout << "[Window] Renderer not created: " << SDL_GetError() << std::endl;
             SDL_DestroyWindow(window);
@@ -77,6 +77,12 @@ void Window::updateAllObjects() {
         o->updateObject();
     }
 }
+
+//void Window::loadAllTextures() {
+//    for (auto o : List) {
+//        o->loadTexture(renderer);
+//    }
+//}
 
 void Window::drawAllObjects() {
     // Czyszczenie ekranu

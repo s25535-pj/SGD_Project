@@ -25,6 +25,7 @@ public:
     void saveObjectToList(GameObject*);
     void deleteAllObjects();
     void updateAllObjects();
+    void loadAllTextures();
     void drawAllObjects();
 };
 

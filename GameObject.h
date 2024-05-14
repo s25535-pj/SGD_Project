@@ -10,6 +10,8 @@ public:
     int posY;
     int w;
     int h;
+    const char* texturePath;
+    SDL_Texture* texture;
 
     GameObject(int posX, int posY, int w, int h);
     ~GameObject();
@@ -20,6 +22,7 @@ public:
  * Używane w oknie przy renderingu */
     virtual void renderObject(SDL_Renderer*) = 0;
     virtual void updateObject() = 0;
+//    virtual SDL_Texture* loadTexture(SDL_Renderer*) = 0;
 };
 
 

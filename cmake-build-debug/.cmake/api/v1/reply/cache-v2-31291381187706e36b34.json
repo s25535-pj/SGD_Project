@@ -1318,6 +1318,30 @@
 			"value" : "C:/msys64/mingw64/lib/cmake/SDL2"
 		},
 		{
+			"name" : "SDL_IMAGE_INCLUDE_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Path to a file."
+				}
+			],
+			"type" : "PATH",
+			"value" : "SDL_IMAGE_INCLUDE_DIR-NOTFOUND"
+		},
+		{
+			"name" : "SDL_IMAGE_LIBRARY",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Path to a library."
+				}
+			],
+			"type" : "FILEPATH",
+			"value" : "SDL_IMAGE_LIBRARY-NOTFOUND"
+		},
+		{
 			"name" : "_CMAKE_LINKER_PUSHPOP_STATE_SUPPORTED",
 			"properties" : 
 			[
