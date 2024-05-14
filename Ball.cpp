@@ -6,7 +6,7 @@
 #include "Player.h"
 #include "macros.h"
 
-Ball::Ball(int posX, int posY, int w, int h) : GameObject(posX,posY,w,h), velX(2), velY(9), maxSpeed(BALL_MAX_SPEED), speedGain(BALL_SPEED_GAIN) {
+Ball::Ball(int posX, int posY, int w, int h) : GameObject(posX,posY,w,h, BALL_TEXTURE), velX(2), velY(9), maxSpeed(BALL_MAX_SPEED), speedGain(BALL_SPEED_GAIN) {
     std::cout << "[Ball] Created Ball object" << std::endl;
 }
 
@@ -16,8 +16,12 @@ Ball::~Ball() {
 
 void Ball::renderObject(SDL_Renderer* renderer) {
     SDL_Rect rectangle = {posX, posY, w, h};
-    SDL_SetRenderDrawColor(renderer,200,200,200,255);
-    SDL_RenderFillRect(renderer, &rectangle);
+    if(texture == nullptr) {
+        SDL_SetRenderDrawColor(renderer,200,200,200,255);
+        SDL_RenderFillRect(renderer, &rectangle);
+    } else {
+        SDL_RenderCopy(renderer, texture, NULL, &rectangle);
+    }
 }
 
 void Ball::applyGravity() {

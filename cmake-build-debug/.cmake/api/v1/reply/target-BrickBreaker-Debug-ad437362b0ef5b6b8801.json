@@ -14,8 +14,7 @@
 		"commands" : 
 		[
 			"add_executable",
-			"target_link_libraries",
-			"include_directories"
+			"target_link_libraries"
 		],
 		"files" : 
 		[
@@ -29,19 +28,13 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 13,
+				"line" : 5,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 29,
-				"parent" : 0
-			},
-			{
-				"command" : 2,
-				"file" : 0,
-				"line" : 10,
+				"line" : 20,
 				"parent" : 0
 			}
 		]
@@ -53,13 +46,6 @@
 			[
 				{
 					"fragment" : "-g -fdiagnostics-color=always"
-				}
-			],
-			"includes" : 
-			[
-				{
-					"backtrace" : 3,
-					"path" : "C:/msys64/mingw64/include/SDL2"
 				}
 			],
 			"language" : "CXX",
@@ -104,6 +90,11 @@
 			{
 				"backtrace" : 2,
 				"fragment" : "-lSDL2main",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-lSDL2_image",
 				"role" : "libraries"
 			},
 			{

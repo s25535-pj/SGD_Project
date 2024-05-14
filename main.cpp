@@ -1,5 +1,6 @@
 #include <iostream>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <cmath>
 #include <vector>
 #include <memory>
@@ -88,6 +89,8 @@ int main(int argc, char *argv[]) {
     Brick* bricks[BRICK_ROWS][BRICK_COLUMNS];
     setUpBricks(window.get(), bricks);
 
+    window->loadTextures();
+
     // Pętla gry
     while (gameActive) {
         Uint64 start = SDL_GetPerformanceCounter();
@@ -96,7 +99,7 @@ int main(int argc, char *argv[]) {
         handleEvents(gameActive, player);
 
         collisions->handleAllCollisions(player, ball, bricks);
-//        player->loadTexture();
+
         window->updateAllObjects();
         window->drawAllObjects();
 //        debugBricks(bricks);
@@ -107,6 +110,7 @@ int main(int argc, char *argv[]) {
         SDL_Delay(floor(16.666f - elapsedMS));
     }
 
+    IMG_Quit();
     SDL_Quit();
     return 0;
 }

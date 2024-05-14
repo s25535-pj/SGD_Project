@@ -1,11 +1,12 @@
 #include <iostream>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <cmath>
 #include "Player.h"
 #include "GameObject.h"
 #include "macros.h"
 
-Player::Player(int posX, int posY, int w, int h) : GameObject(posX,posY,w,h), velX(0), velY(0),
+Player::Player(int posX, int posY, int w, int h) : GameObject(posX,posY,w,h, PLAYER_TEXTURE), velX(0), velY(0),
 acc(PLAYER_ACCELERATION), maxSpeed(PLAYER_MAX_SPEED), resistance(PLAYER_RESISTANCE) {
     std::cout << "[Player] Created Player object" << std::endl;
 }
@@ -16,8 +17,12 @@ Player::~Player() {
 
 void Player::renderObject(SDL_Renderer* renderer) {
     SDL_Rect rectangle = {posX, posY, w, h};
-    SDL_SetRenderDrawColor(renderer,200,200,200,255);
-    SDL_RenderFillRect(renderer, &rectangle);
+    if(texture == nullptr) {
+        SDL_SetRenderDrawColor(renderer,200,200,200,255);
+        SDL_RenderFillRect(renderer, &rectangle);
+    } else {
+        SDL_RenderCopy(renderer, texture, NULL, &rectangle);
+    }
 }
 
 void Player::moveLeft() {
@@ -68,9 +73,4 @@ void Player::updateObject() {
     limitUpMovement();
     posX += (int)velX;
     posY += (int)velY;
-
-
-//    std::cout << "[Player] velX: " << velX << std::endl;
-//    std::cout << "[Player] velY: " << velY << std::endl;
-//    std::cout << "[Player] posX: " << posX << std::endl;
 }

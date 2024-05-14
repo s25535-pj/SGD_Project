@@ -11,9 +11,9 @@ public:
     int w;
     int h;
     const char* texturePath;
-    SDL_Texture* texture;
+    SDL_Texture* texture = nullptr;
 
-    GameObject(int posX, int posY, int w, int h);
+    GameObject(int posX, int posY, int w, int h, const char* texturePath);
     ~GameObject();
 
 /* A virtual function (also known as virtual methods) is a member function that is declared within a base class and is re-defined (overridden)
@@ -22,7 +22,7 @@ public:
  * Używane w oknie przy renderingu */
     virtual void renderObject(SDL_Renderer*) = 0;
     virtual void updateObject() = 0;
-//    virtual SDL_Texture* loadTexture(SDL_Renderer*) = 0;
+    void loadTexture(SDL_Renderer* renderer);
 };
 
 

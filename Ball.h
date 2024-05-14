@@ -12,6 +12,7 @@ public:
     double maxSpeed;
     double speedGain;
 
+
     Ball(int posX, int posY, int w, int h);
     ~Ball();
 

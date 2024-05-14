@@ -1,12 +1,15 @@
 #include <iostream>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 
 #include "macros.h"
 #include "Window.h"
+#include "Player.h"
 
 Window::Window() : window(nullptr), renderer(nullptr) {
         createWindow();
         createRenderer();
+        loadBackgroundTexture();
         std::cout << "[Window] Created Window object" << std::endl;
     }
 Window::~Window() {
@@ -17,7 +20,7 @@ Window::~Window() {
 }
 
 SDL_Window* Window::createWindow() {
-        if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+        if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
             std::cout << "[Window] Init unsuccessful : " << SDL_GetError() << std::endl;
             exit(1);
         }
@@ -35,7 +38,6 @@ SDL_Window* Window::createWindow() {
 }
 
 SDL_Renderer* Window::createRenderer() {
-
         // SDL_RENDERER_ACCELERATED używanie karty graficznej
         // SDL_RENDERER_PRESENTVSYNC wyrównaj do odświerzania monitora
         renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
@@ -78,16 +80,31 @@ void Window::updateAllObjects() {
     }
 }
 
-//void Window::loadAllTextures() {
-//    for (auto o : List) {
-//        o->loadTexture(renderer);
-//    }
-//}
+void Window::loadTextures() {
+    for (auto o : List) {
+        o->loadTexture(renderer);
+    }
+}
+
+void Window::loadBackgroundTexture() {
+    if(backgroundTexturePath) {
+        background_texture = IMG_LoadTexture(renderer, backgroundTexturePath);
+        if (background_texture == nullptr) {
+            std::cout << "[GameObject] Texture not loaded: " << SDL_GetError() << std::endl;
+        }
+    } else {
+        std::cout << "[GameObject] No texture path: " << SDL_GetError() << std::endl;
+    }
+}
 
 void Window::drawAllObjects() {
     // Czyszczenie ekranu
-    SDL_SetRenderDrawColor(renderer,122,122,122,255);
-    SDL_RenderClear(renderer);
+    if(background_texture == nullptr) {
+        SDL_SetRenderDrawColor(renderer,122,122,122,255);
+        SDL_RenderClear(renderer);
+    } else {
+        SDL_RenderCopy(renderer, background_texture, NULL, NULL);
+    }
 
     // Wyrenderuj wszystkie obiekty z listy
     for (auto o : List) {

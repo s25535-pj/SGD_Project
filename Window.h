@@ -6,6 +6,7 @@
 #include <vector>
 #include "macros.h"
 #include "GameObject.h"
+#include "Player.h"
 
 
 class Window {
@@ -13,6 +14,8 @@ private:
     SDL_Window* window;
     SDL_Renderer* renderer;
     std::vector<GameObject*> List;
+    const char* backgroundTexturePath = BACKGROUND_TEXTURE;
+    SDL_Texture* background_texture;
 
 public:
     Window();
@@ -25,8 +28,9 @@ public:
     void saveObjectToList(GameObject*);
     void deleteAllObjects();
     void updateAllObjects();
-    void loadAllTextures();
     void drawAllObjects();
+    void loadTextures();
+    void loadBackgroundTexture();
 };
 
 
