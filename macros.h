@@ -12,8 +12,8 @@
 #define PLAYER_RESISTANCE 0.3
 #define PLAYER_GRAVITY 4
 
-#define BALL_WIDTH 30
-#define BALL_HEIGHT 30
+#define BALL_WIDTH 50
+#define BALL_HEIGHT 50
 #define BALL_GRAVITY 0.5
 #define BALL_MAX_SPEED 15
 #define BALL_SPEED_GAIN 0.25
@@ -26,8 +26,8 @@
 #define HORIZONTAL_SPACE_BETWEEN_BRICKS 30
 #define SPACE_FROM_SCREEN_TOP 20
 
-#define PLAYER_TEXTURE "C:/Users/oem/Desktop/Studia/SGD/BrickBreaker/textures/player.png"
-#define BRICK_TEXTURE "C:/Users/oem/Desktop/Studia/SGD/BrickBreaker/textures/brick.png"
-#define BALL_TEXTURE "C:/Users/oem/Desktop/Studia/SGD/BrickBreaker/textures/ball.png"
-#define BACKGROUND_TEXTURE "C:/Users/oem/Desktop/Studia/SGD/BrickBreaker/textures/background.png"
+#define PLAYER_TEXTURE "C:/Users/oem/Desktop/Studia/SGD/SGD_Project/textures/player3.png"
+#define BRICK_TEXTURE "C:/Users/oem/Desktop/Studia/SGD/SGD_Project/textures/brick2.png"
+#define BALL_TEXTURE "C:/Users/oem/Desktop/Studia/SGD/SGD_Project/textures/ball2.png"
+#define BACKGROUND_TEXTURE "C:/Users/oem/Desktop/Studia/SGD/SGD_Project/textures/background.png"
 #endif //BRICKBREAKER_MACROS_H
