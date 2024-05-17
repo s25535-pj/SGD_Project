@@ -20,6 +20,7 @@ public:
     void ballBrickCollision(Ball*, Brick* [BRICK_ROWS][BRICK_COLUMNS]);
     void ballPlayerCollision(Ball*, Player*);
     void handleAllCollisions(Player*, Ball*, Brick* [BRICK_ROWS][BRICK_COLUMNS]);
+    bool checkIfGameOver(Ball*);
 
 };
 

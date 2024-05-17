@@ -15,7 +15,8 @@ private:
     SDL_Renderer* renderer;
     std::vector<GameObject*> List;
     const char* backgroundTexturePath = BACKGROUND_TEXTURE;
-    SDL_Texture* background_texture;
+    const char* gameOverTexturePath = GAMEOVER_TEXTURE;
+    SDL_Texture* backgroundTexture;
 
 public:
     Window();
@@ -31,6 +32,7 @@ public:
     void drawAllObjects();
     void loadTextures();
     void loadBackgroundTexture();
+    void showGameOver();
 };
 
 

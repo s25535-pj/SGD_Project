@@ -84,9 +84,16 @@ void Collisions::ballBrickCollision(Ball* ball, Brick* bricks[BRICK_ROWS][BRICK_
 }
 
 void Collisions::ballPlayerCollision(Ball* ball, Player* player) {
-    if (collisionDetected(player, ball)) {
+    if(collisionDetected(player, ball)) {
         ball->bounceFromPlayer(player);
     };
+}
+
+bool Collisions::checkIfGameOver(Ball* ball) {
+    if(ball->posY + ball->h >= WINDOW_HEIGHT) {
+        return true;
+    }
+    return false;
 }
 
 void Collisions::handleAllCollisions(Player* player, Ball* ball, Brick* bricks[BRICK_ROWS][BRICK_COLUMNS]) {

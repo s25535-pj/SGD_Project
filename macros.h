@@ -30,4 +30,5 @@
 #define BRICK_TEXTURE TEXTURES_DIR "brick.png"
 #define BALL_TEXTURE TEXTURES_DIR "ball2.png"
 #define BACKGROUND_TEXTURE TEXTURES_DIR "background.png"
+#define GAMEOVER_TEXTURE TEXTURES_DIR "gameOver.png"
 #endif //BRICKBREAKER_MACROS_H

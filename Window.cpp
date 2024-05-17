@@ -87,23 +87,19 @@ void Window::loadTextures() {
 }
 
 void Window::loadBackgroundTexture() {
-    if(backgroundTexturePath) {
-        background_texture = IMG_LoadTexture(renderer, backgroundTexturePath);
-        if (background_texture == nullptr) {
-            std::cout << "[GameObject] Texture not loaded: " << SDL_GetError() << std::endl;
-        }
-    } else {
-        std::cout << "[GameObject] No texture path: " << SDL_GetError() << std::endl;
+    backgroundTexture = IMG_LoadTexture(renderer, backgroundTexturePath);
+    if (backgroundTexture == nullptr) {
+        std::cout << "[GameObject] Texture not loaded: " << SDL_GetError() << std::endl;
+        SDL_DestroyTexture(backgroundTexture);
     }
 }
-
 void Window::drawAllObjects() {
     // Czyszczenie ekranu
-    if(background_texture == nullptr) {
+    if(backgroundTexture == nullptr) {
         SDL_SetRenderDrawColor(renderer,122,122,122,255);
         SDL_RenderClear(renderer);
     } else {
-        SDL_RenderCopy(renderer, background_texture, NULL, NULL);
+        SDL_RenderCopy(renderer, backgroundTexture, NULL, NULL);
     }
 
     // Wyrenderuj wszystkie obiekty z listy
@@ -111,4 +107,17 @@ void Window::drawAllObjects() {
         o->renderObject(renderer);
     }
     SDL_RenderPresent(renderer);
+}
+
+void Window::showGameOver() {
+    SDL_Texture* gameOverTexture = IMG_LoadTexture(renderer, gameOverTexturePath);
+    if (gameOverTexture == nullptr) {
+        std::cout << "[GameObject] Texture not loaded: " << SDL_GetError() << std::endl;
+        SDL_DestroyTexture(gameOverTexture);
+    } else {
+        SDL_Rect rectangle = {WINDOW_WIDTH/2-WINDOW_WIDTH/4,WINDOW_HEIGHT/2-WINDOW_HEIGHT/4,WINDOW_WIDTH/2, WINDOW_HEIGHT/2};
+        SDL_RenderCopy(renderer, gameOverTexture, NULL, &rectangle);
+        SDL_RenderPresent(renderer);
+        std::cout << "[GameObject] Game Over"<< std::endl;
+    }
 }

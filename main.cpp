@@ -102,6 +102,9 @@ int main(int argc, char *argv[]) {
 
         window->updateAllObjects();
         window->drawAllObjects();
+        if(collisions->checkIfGameOver(ball)) {
+            gameActive = false;
+        }
 //        debugBricks(bricks);
 
         //================================
@@ -110,6 +113,8 @@ int main(int argc, char *argv[]) {
         SDL_Delay(floor(16.666f - elapsedMS));
     }
 
+    window->showGameOver();
+    SDL_Delay(2000);
     IMG_Quit();
     SDL_Quit();
     return 0;
