@@ -26,8 +26,8 @@
 #define HORIZONTAL_SPACE_BETWEEN_BRICKS 30
 #define SPACE_FROM_SCREEN_TOP 20
 
-#define PLAYER_TEXTURE "C:/Users/oem/Desktop/Studia/SGD/SGD_Project/textures/player3.png"
-#define BRICK_TEXTURE "C:/Users/oem/Desktop/Studia/SGD/SGD_Project/textures/brick2.png"
-#define BALL_TEXTURE "C:/Users/oem/Desktop/Studia/SGD/SGD_Project/textures/ball2.png"
-#define BACKGROUND_TEXTURE "C:/Users/oem/Desktop/Studia/SGD/SGD_Project/textures/background.png"
+#define PLAYER_TEXTURE TEXTURES_DIR "player.png"
+#define BRICK_TEXTURE TEXTURES_DIR "brick.png"
+#define BALL_TEXTURE TEXTURES_DIR "ball2.png"
+#define BACKGROUND_TEXTURE TEXTURES_DIR "background.png"
 #endif //BRICKBREAKER_MACROS_H

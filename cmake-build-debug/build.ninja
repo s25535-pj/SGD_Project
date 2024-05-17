@@ -50,42 +50,49 @@ cmake_ninja_workdir = C$:/Users/oem/Desktop/Studia/SGD/SGD_Project/cmake-build-d
 build cmake_object_order_depends_target_BrickBreaker: phony || CMakeFiles/BrickBreaker.dir
 
 build CMakeFiles/BrickBreaker.dir/main.cpp.obj: CXX_COMPILER__BrickBreaker_unscanned_Debug C$:/Users/oem/Desktop/Studia/SGD/SGD_Project/main.cpp || cmake_object_order_depends_target_BrickBreaker
+  DEFINES = -DTEXTURES_DIR=\"C:/Users/oem/Desktop/Studia/SGD/SGD_Project/textures/\"
   DEP_FILE = CMakeFiles\BrickBreaker.dir\main.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\BrickBreaker.dir
   OBJECT_FILE_DIR = CMakeFiles\BrickBreaker.dir
 
 build CMakeFiles/BrickBreaker.dir/Window.cpp.obj: CXX_COMPILER__BrickBreaker_unscanned_Debug C$:/Users/oem/Desktop/Studia/SGD/SGD_Project/Window.cpp || cmake_object_order_depends_target_BrickBreaker
+  DEFINES = -DTEXTURES_DIR=\"C:/Users/oem/Desktop/Studia/SGD/SGD_Project/textures/\"
   DEP_FILE = CMakeFiles\BrickBreaker.dir\Window.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\BrickBreaker.dir
   OBJECT_FILE_DIR = CMakeFiles\BrickBreaker.dir
 
 build CMakeFiles/BrickBreaker.dir/GameObject.cpp.obj: CXX_COMPILER__BrickBreaker_unscanned_Debug C$:/Users/oem/Desktop/Studia/SGD/SGD_Project/GameObject.cpp || cmake_object_order_depends_target_BrickBreaker
+  DEFINES = -DTEXTURES_DIR=\"C:/Users/oem/Desktop/Studia/SGD/SGD_Project/textures/\"
   DEP_FILE = CMakeFiles\BrickBreaker.dir\GameObject.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\BrickBreaker.dir
   OBJECT_FILE_DIR = CMakeFiles\BrickBreaker.dir
 
 build CMakeFiles/BrickBreaker.dir/Player.cpp.obj: CXX_COMPILER__BrickBreaker_unscanned_Debug C$:/Users/oem/Desktop/Studia/SGD/SGD_Project/Player.cpp || cmake_object_order_depends_target_BrickBreaker
+  DEFINES = -DTEXTURES_DIR=\"C:/Users/oem/Desktop/Studia/SGD/SGD_Project/textures/\"
   DEP_FILE = CMakeFiles\BrickBreaker.dir\Player.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\BrickBreaker.dir
   OBJECT_FILE_DIR = CMakeFiles\BrickBreaker.dir
 
 build CMakeFiles/BrickBreaker.dir/Ball.cpp.obj: CXX_COMPILER__BrickBreaker_unscanned_Debug C$:/Users/oem/Desktop/Studia/SGD/SGD_Project/Ball.cpp || cmake_object_order_depends_target_BrickBreaker
+  DEFINES = -DTEXTURES_DIR=\"C:/Users/oem/Desktop/Studia/SGD/SGD_Project/textures/\"
   DEP_FILE = CMakeFiles\BrickBreaker.dir\Ball.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\BrickBreaker.dir
   OBJECT_FILE_DIR = CMakeFiles\BrickBreaker.dir
 
 build CMakeFiles/BrickBreaker.dir/Brick.cpp.obj: CXX_COMPILER__BrickBreaker_unscanned_Debug C$:/Users/oem/Desktop/Studia/SGD/SGD_Project/Brick.cpp || cmake_object_order_depends_target_BrickBreaker
+  DEFINES = -DTEXTURES_DIR=\"C:/Users/oem/Desktop/Studia/SGD/SGD_Project/textures/\"
   DEP_FILE = CMakeFiles\BrickBreaker.dir\Brick.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\BrickBreaker.dir
   OBJECT_FILE_DIR = CMakeFiles\BrickBreaker.dir
 
 build CMakeFiles/BrickBreaker.dir/Collisions.cpp.obj: CXX_COMPILER__BrickBreaker_unscanned_Debug C$:/Users/oem/Desktop/Studia/SGD/SGD_Project/Collisions.cpp || cmake_object_order_depends_target_BrickBreaker
+  DEFINES = -DTEXTURES_DIR=\"C:/Users/oem/Desktop/Studia/SGD/SGD_Project/textures/\"
   DEP_FILE = CMakeFiles\BrickBreaker.dir\Collisions.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\BrickBreaker.dir
