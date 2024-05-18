@@ -13,7 +13,7 @@ Collisions::~Collisions() {
     std::cout << "[Collisions] Deleted Collisions object" << std::endl;
 }
 
-// AABB To za słabe
+// AABB To za słabe, nie sprawdza kierunku.
 bool Collisions::collisionDetected(GameObject* o1, GameObject* o2) {
     if (o1->posX < o2->posX + o2->w &&  //  lewy < prawy    | lewa strona o1
         o1->posX + o1->w > o2->posX &&  //  prawy > lewy    | prawa strona o1
@@ -25,16 +25,17 @@ bool Collisions::collisionDetected(GameObject* o1, GameObject* o2) {
     return false;
 }
 
-// To zgapione ale działa
+//  Funkcja zakłada że do kolizji już doszło, sprawdza jedynie kierunek
 int Collisions::collisionDirection(GameObject * o1, GameObject * o2) {
-    int o1right = o1->posX + o1->w;
-    int o2right = o2->posX + o2->w;
-    int o1bottom = o1->posY + o1->h;
-    int o2bottom = o2->posY + o2->h;
+    int o1right = o1->posX + o1->w; // prawa strona o1
+    int o2right = o2->posX + o2->w; // prawa strona o2
+    int o1bottom = o1->posY + o1->h; // dół o1
+    int o2bottom = o2->posY + o2->h; // dół o2
 
-    int overlapX = (o1right - o2->posX) - (o2right - o1->posX);
+    int overlapX = (o1right - o2->posX) - (o2right - o1->posX); // (prawa o1 - lewa o2) - (prawa o2 - lewa o1) =
     int overlapY = (o1bottom - o2->posY) - (o2bottom - o1->posY);
 
+    // Określ gdzie kolizja zaszła
     if (std::abs(overlapX) < std::abs(overlapY)) {
         if (overlapY > 0) {
             return 0; // z góry
@@ -50,6 +51,7 @@ int Collisions::collisionDirection(GameObject * o1, GameObject * o2) {
     }
 }
 
+// Po kolei kolizje z gracza ze ścianą i jak się zachować
 void Collisions::playerWallCollision(Player* player) {
     // Przelatywanie przez ściany :)
     if (player->posX < -player->w) { player->posX = WINDOW_WIDTH; } //    if (posX < 0) { posX = 0; }
@@ -58,6 +60,7 @@ void Collisions::playerWallCollision(Player* player) {
     if (player->posY > WINDOW_HEIGHT - player->h) { player->posY = WINDOW_HEIGHT - player->h; }
 }
 
+// Po kolei kolizje z piłki ze ścianą i jak się zachować
 void Collisions::ballWallCollision(Ball* ball) {
     // Przelatywanie przez ściany :)
     if (ball->posX < 0) { ball->velX = -ball->velX; } //  if (posX < -w) { posX = WINDOW_WIDTH; }
@@ -66,6 +69,7 @@ void Collisions::ballWallCollision(Ball* ball) {
     if (ball->posY > WINDOW_HEIGHT - ball->h) { ball->velY = -ball->velY; }
 };
 
+// Kolizje z każdą cegłą i jak ma się zachować
 void Collisions::ballBrickCollision(Ball* ball, Brick* bricks[BRICK_ROWS][BRICK_COLUMNS]) {
     for (int i = 0; i < BRICK_ROWS; ++i) {
         for (int j = 0; j < BRICK_COLUMNS; ++j) {

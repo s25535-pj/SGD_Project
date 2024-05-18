@@ -38,6 +38,7 @@ void handleEvents(bool &gameActive, Player* player) {
     }
 }
 
+// ChatGPT, jak rozmieścić cegły mając je w tablicy dwuwymiarowej
 void setUpBricks(Window* window, Brick* bricks[BRICK_ROWS][BRICK_COLUMNS]) {
     for (int i = 0; i < BRICK_ROWS; ++i) {
         for (int j = 0; j < BRICK_COLUMNS; ++j) {
@@ -53,6 +54,7 @@ void setUpBricks(Window* window, Brick* bricks[BRICK_ROWS][BRICK_COLUMNS]) {
     }
 }
 
+// Miałem problem z kolizjami cegieł
 void debugBricks(Brick* bricks[BRICK_ROWS][BRICK_COLUMNS]) {
     std::cout <<"============="<< std::endl;
     for (int i = 0; i < BRICK_ROWS; ++i) {
@@ -77,9 +79,11 @@ int main(int argc, char *argv[]) {
     int ballStartingPosY = WINDOW_HEIGHT/2;
     bool gameActive = true;
 
+    // Unikalny pointer sam zarządza pamięcią
     std::unique_ptr<Window> window = std::make_unique<Window>();
     std::unique_ptr<Collisions> collisions = std::make_unique<Collisions>();
 
+    // Zwykły pointer na końcu trzeba usunąć
     auto* player = new Player(playerStartingPosX,playerStartingPosY,PLAYER_WIDTH, PLAYER_HEIGHT);
     window->saveObjectToList(player);
 

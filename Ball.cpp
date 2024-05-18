@@ -33,6 +33,7 @@ void Ball::increaseSpeed() {
         std::cout << "[Ball] Speed increased: " << speedGain + maxSpeed << std::endl;
 }
 
+// ChatGPT, Jak zrobić by piłka odbiła się pod zadanym kątem w zależności od pozycji paletki i piłki
 void Ball::bounceFromPlayer(Player* player) {
 //    int relativeCollisionPosition = posX - player->posX;
 //    // Przeliczenie pozycji kolizji na wartość w zakresie od 0 do 100
@@ -46,9 +47,9 @@ void Ball::bounceFromPlayer(Player* player) {
 
 
 
-    double relative = player->posX + (player->w/2.0) - (posX + w/2.0); // Wyliczanie środka gracza
+    double relative = player->posX + (player->w/2.0) - (posX + w/2.0); // Środek gracza - środek piłki = odległość relatywna
     double normalized = relative / (player->w/2.0); // Normalizacja od -1 do 1
-    double bounce = normalized * (5* M_PI/12);
+    double bounce = normalized * (5* M_PI/12); // Przeliczanie na radiany
 
     bounce *= 0.8;
     velX = maxSpeed * -sin(bounce);
